@@ -43,8 +43,8 @@ function SignInPage({
                     provider.id === 'google'
                       ? '#4285F4'
                       : provider.id === 'kakao'
-                      ? '#FFEB00'
-                      : '#3C1E1E',
+                        ? '#FFEB00'
+                        : '#3C1E1E',
                   cursor: 'pointer',
                 }}
                 onClick={() =>
@@ -65,8 +65,8 @@ function SignInPage({
                       provider.id === 'google'
                         ? '/images/GoogleLogo.png'
                         : provider.id === 'kakao'
-                        ? '/images/KakaoLogo.png'
-                        : '/naver.png'
+                          ? '/images/KakaoLogo.png'
+                          : '/naver.png'
                     }
                     width={30}
                     height={30}
