@@ -17,7 +17,7 @@ function SignInPage({
 }: {
   providers: Record<LiteralUnion<BuiltInProviderType>, ClientSafeProvider>
 }) {
-  console.log(providers)
+  console.log(providers.id)
   return (
     <div>
       <Flex css={ContainerStyles}>
