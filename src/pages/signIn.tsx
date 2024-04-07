@@ -47,7 +47,11 @@ function SignInPage({
                       : '#3C1E1E',
                   cursor: 'pointer',
                 }}
-                onClick={() => signIn(provider.id)}
+                onClick={() =>
+                  signIn(provider.id, {
+                    callbackUrl: '/',
+                  })
+                }
               >
                 <div
                   style={{
