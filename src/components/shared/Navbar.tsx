@@ -33,7 +33,7 @@ export default function Navbar() {
     }
     if (showSignInButton) {
       return (
-        <Link href="/signIn">
+        <Link href="/auth/signIn">
           <Button>로그인/회원가입</Button>
         </Link>
       )
