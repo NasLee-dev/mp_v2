@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 export default function Navbar() {
   const { data: session } = useSession()
   const router = useRouter()
-  const showSignInButton = ['/signIn'].includes(router.pathname) === false
+  const showSignInButton = ['/auth/signin'].includes(router.pathname) === false
   const renderButton = useCallback(() => {
     if (session != null) {
       return (
