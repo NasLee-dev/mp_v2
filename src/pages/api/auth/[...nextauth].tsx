@@ -25,6 +25,6 @@ export default NextAuth({
     strategy: 'jwt',
   },
   pages: {
-    signIn: '/signIn',
+    signIn: '/auth/signIn',
   },
 })
