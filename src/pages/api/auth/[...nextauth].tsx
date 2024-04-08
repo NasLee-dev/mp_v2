@@ -1,7 +1,7 @@
-import NextAuth, { NextAuthOptions } from 'next-auth'
+import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import KakaoProvider from 'next-auth/providers/kakao'
-export const authOptions: NextAuthOptions = {
+export default NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
@@ -27,7 +27,4 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/auth/signin',
   },
-}
-
-const handler = NextAuth(authOptions)
-export { handler as GET, handler as POST }
+})
