@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 export default function Navbar() {
   const { data: session } = useSession()
   const router = useRouter()
-  const showSignInButton = ['/auth/signin'].includes(router.pathname) === false
+  const showSignInButton = ['/signin'].includes(router.pathname) === false
   const renderButton = useCallback(() => {
     if (session != null) {
       return (
@@ -33,7 +33,7 @@ export default function Navbar() {
     }
     if (showSignInButton) {
       return (
-        <Link href="/auth/signin">
+        <Link href="/signin">
           <Button>로그인/회원가입</Button>
         </Link>
       )
