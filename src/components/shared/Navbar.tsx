@@ -9,20 +9,26 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { useRecoilState } from 'recoil'
+import { userAtom } from '@/store/atom/user'
 
 export default function Navbar() {
+  const [user, setUser] = useRecoilState(userAtom)
+  console.log(user)
   const { data: session } = useSession()
   const router = useRouter()
   const showSignInButton = ['/signin'].includes(router.pathname) === false
-  console.log(showSignInButton)
   const renderButton = useCallback(() => {
-    if (session != null) {
+    if (session != null || user?.email !== '') {
       return (
         <Link href="/myMenu">
           <Image
             width={40}
             height={40}
-            src={session.user?.image ?? ''}
+            src={
+              session?.user?.image ??
+              'https://cdn4.iconfinder.com/data/icons/office-thick-outline/36/office-14-256.png'
+            }
             alt="profile"
             style={{
               borderRadius: '50%',
@@ -32,7 +38,7 @@ export default function Navbar() {
         </Link>
       )
     }
-    if (showSignInButton) {
+    if (showSignInButton && user?.email === '') {
       return (
         <Link href="/signin">
           <Button>로그인/회원가입</Button>

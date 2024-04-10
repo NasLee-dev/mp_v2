@@ -8,11 +8,15 @@ import TextField from '@/components/shared/TextField'
 import { FormValue } from '@/model/user'
 import { auth, store } from '@/remote/firebase'
 import { css } from '@emotion/react'
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  updateProfile,
+} from 'firebase/auth'
 import { collection, doc, setDoc } from 'firebase/firestore'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { ChangeEvent, useCallback, useMemo, useState } from 'react'
+import { ChangeEvent, FormEvent, useCallback, useMemo, useState } from 'react'
 import validator from 'validator'
 
 const FixedBottomButton = dynamic(
@@ -48,23 +52,25 @@ function EamilSignupPage() {
   const errors = useMemo(() => validate(formValue), [formValue])
   const 제출가능한가 = Object.keys(errors).length === 0
 
-  const handleSubmit = async (formValue: FormValue) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     const { email, password, name, phone } = formValue
     try {
-      const { user } = await createUserWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password,
       )
+      const user = userCredential.user
       await updateProfile(user, {
         displayName: name,
       })
-      const newUser = {
+      await setDoc(doc(store, COLLECTION.USER, user.uid), {
         uid: user.uid,
         email: user.email,
-        name,
-      }
-      await setDoc(doc(collection(store, COLLECTION.USER), user.uid), newUser)
+        name: name,
+        phone: phone,
+      })
       router.push('/')
     } catch (error) {
       console.error(error)
@@ -86,6 +92,7 @@ function EamilSignupPage() {
             flexDirection: 'column',
             width: '100%',
           }}
+          onSubmit={handleSubmit}
         >
           <TextField
             label="이름"
@@ -171,9 +178,7 @@ function EamilSignupPage() {
               cursor: 'pointer',
               width: '490px',
             }}
-            onClick={() => {
-              handleSubmit(formValue)
-            }}
+            type="submit"
           >
             <Text bold={true} typography="t5" color="white">
               회원가입

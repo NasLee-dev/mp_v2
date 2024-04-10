@@ -10,7 +10,6 @@ import {
   signIn,
 } from 'next-auth/react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 function SignInPage({
@@ -19,7 +18,6 @@ function SignInPage({
   providers: Record<LiteralUnion<BuiltInProviderType>, ClientSafeProvider>
 }) {
   const router = useRouter()
-  console.log(providers)
   return (
     <div>
       <Flex css={ContainerStyles}>
@@ -43,7 +41,7 @@ function SignInPage({
               gap: '10px',
             }}
             onClick={() => {
-              router.push('/auth/EmailSignin')
+              router.push('/auth/signin')
             }}
           >
             <Image

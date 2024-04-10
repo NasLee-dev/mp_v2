@@ -5,10 +5,15 @@ import Spacing from '@/components/shared/Spacing'
 import Text from '@/components/shared/Text'
 import TextField from '@/components/shared/TextField'
 import { FormValue } from '@/model/user'
+import { auth } from '@/remote/firebase'
+import { userAtom } from '@/store/atom/user'
 import { colors } from '@/styles/colorPalette'
 import { css } from '@emotion/react'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { ChangeEvent, useCallback, useMemo, useState } from 'react'
+import { useRecoilState } from 'recoil'
 import validator from 'validator'
 
 function EamilSigninPage() {
@@ -16,6 +21,8 @@ function EamilSigninPage() {
     email: '',
     password: '',
   })
+  const [user, setUser] = useRecoilState(userAtom)
+  const router = useRouter()
 
   const handleFormValues = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -23,7 +30,26 @@ function EamilSigninPage() {
   }, [])
   const errors = useMemo(() => validate(formValues), [formValues])
   const 제출가능한가 = Object.keys(errors).length === 0
-  const handleSubmit = () => {}
+  const handleSubmit = async () => {
+    try {
+      const getUser = await signInWithEmailAndPassword(
+        auth,
+        formValues.email,
+        formValues.password,
+      )
+      console.log(getUser)
+      setUser({
+        ...user,
+        uid: getUser.user.uid as string,
+        email: getUser.user.email as string,
+        displayName: getUser.user.displayName as string,
+        photoURL: getUser.user.photoURL as string,
+      })
+      router.push('/')
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
     <Flex css={ContainerStyles}>
       <Flex css={FormStyles} direction="column" align="center">
@@ -58,7 +84,9 @@ function EamilSigninPage() {
           <Button
             size="medium"
             disabled={제출가능한가 === false}
-            onClick={() => {}}
+            onClick={() => {
+              handleSubmit()
+            }}
             style={{
               width: '490px',
             }}
@@ -66,7 +94,7 @@ function EamilSigninPage() {
             로그인
           </Button>
           <Spacing size={12} />
-          <Link href="/EmailSignup" css={linkStyles}>
+          <Link href="/auth/signup" css={linkStyles}>
             <Text typography="t7">아직 계정이 없으신가요? </Text>
           </Link>
         </Flex>
