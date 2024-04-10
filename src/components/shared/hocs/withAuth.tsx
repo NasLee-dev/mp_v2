@@ -11,7 +11,7 @@ function withAuth<Props = Record<string, never>>(
     const router = useRouter()
     const user = useRecoilValue(userAtom)
     const { data, status } = useSession()
-    if ((status !== 'loading' && data == null) || user?.email === '') {
+    if (status !== 'loading' && data == null && user?.email === '') {
       router.replace('/auth/signin')
       return null
     }
