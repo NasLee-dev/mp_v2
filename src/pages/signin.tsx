@@ -10,12 +10,15 @@ import {
   signIn,
 } from 'next-auth/react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 function SignInPage({
   providers,
 }: {
   providers: Record<LiteralUnion<BuiltInProviderType>, ClientSafeProvider>
 }) {
+  const router = useRouter()
   console.log(providers)
   return (
     <div>
@@ -26,6 +29,39 @@ function SignInPage({
             로그인을 진행해주세요!
           </Text>
           <Spacing direction="vertical" size={80} />
+          <Flex
+            direction="row"
+            align="center"
+            justify="center"
+            style={{
+              display: 'flex',
+              width: '100%',
+              height: '60px',
+              borderRadius: '8px',
+              border: '1px solid #333',
+              cursor: 'pointer',
+              gap: '10px',
+            }}
+            onClick={() => {
+              router.push('/auth/EmailSignin')
+            }}
+          >
+            <Image
+              src={
+                'https://cdn4.iconfinder.com/data/icons/social-media-logos-6/512/112-gmail_email_mail-512.png'
+              }
+              width={30}
+              height={30}
+              alt={'Mail'}
+              style={{
+                marginLeft: '-10px',
+              }}
+            />
+            <Text bold={true} typography="t5">
+              이메일로 로그인
+            </Text>
+          </Flex>
+          <Spacing direction="vertical" size={15} />
           {Object.values(providers).map((provider) => (
             <>
               <div
@@ -35,7 +71,7 @@ function SignInPage({
                   flexDirection: 'column',
                   alignItems: 'center',
                   width: '100%',
-                  height: '50px',
+                  height: '60px',
                   borderRadius: '8px',
                   justifyContent: 'center',
                   color: provider.id === 'google' ? 'white' : 'black',
@@ -73,6 +109,7 @@ function SignInPage({
                     alt={provider.name}
                   />
                   <Text
+                    bold={true}
                     style={{
                       color: provider.id === 'google' ? 'white' : 'black',
                     }}
@@ -82,7 +119,7 @@ function SignInPage({
                   </Text>
                 </div>
               </div>
-              <Spacing direction="vertical" size={10} />
+              <Spacing direction="vertical" size={15} />
             </>
           ))}
         </Flex>

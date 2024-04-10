@@ -14,6 +14,7 @@ export default function Navbar() {
   const { data: session } = useSession()
   const router = useRouter()
   const showSignInButton = ['/signin'].includes(router.pathname) === false
+  console.log(showSignInButton)
   const renderButton = useCallback(() => {
     if (session != null) {
       return (

@@ -7,6 +7,7 @@ import {
 
 import Text from './Text'
 import Input from './Input'
+import { Colors, colors } from '@/styles/colorPalette'
 
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: React.ReactNode
@@ -21,7 +22,11 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   ) {
     const [focused, setFocused] = useState(false)
 
-    const labelColor = hasError ? 'red' : focused ? 'blue' : undefined
+    const labelColor = hasError
+      ? `${colors.red}`
+      : focused
+        ? `${colors.blue100}`
+        : undefined
 
     const handleFocus: FocusEventHandler<HTMLInputElement> = (event) => {
       setFocused(true)
@@ -38,7 +43,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         {label ? (
           <Text
             typography="t7"
-            color={labelColor}
+            color={labelColor as Colors}
             display="inline-block"
             style={{ marginBottom: 6 }}
           >
@@ -57,7 +62,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         {helpMessage ? (
           <Text
             typography="t7"
-            color={labelColor}
+            color={labelColor as Colors}
             display="inline-block"
             style={{ marginTop: 6, fontSize: 12 }}
           >
