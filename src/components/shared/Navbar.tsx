@@ -14,20 +14,37 @@ import { userAtom } from '@/store/atom/user'
 
 export default function Navbar() {
   const [user, setUser] = useRecoilState(userAtom)
-  console.log(user)
   const { data: session } = useSession()
   const router = useRouter()
-  const showSignInButton = ['/signin'].includes(router.pathname) === false
+  const showSignInButton =
+    ['/signin', '/auth/signin'].includes(router.pathname) === false
   const renderButton = useCallback(() => {
-    if (session != null || user?.email !== '') {
+    if (session != null) {
+      return (
+        <Link href="/myMenu">
+          <Image
+            width={40}
+            height={40}
+            src={session?.user?.image ?? ''}
+            alt="profile"
+            style={{
+              borderRadius: '50%',
+              cursor: 'pointer',
+            }}
+          />
+        </Link>
+      )
+    }
+    if (user?.email !== '') {
       return (
         <Link href="/myMenu">
           <Image
             width={40}
             height={40}
             src={
-              session?.user?.image ??
-              'https://cdn4.iconfinder.com/data/icons/office-thick-outline/36/office-14-256.png'
+              user?.photoURL
+                ? user?.photoURL
+                : 'https://cdn4.iconfinder.com/data/icons/office-thick-outline/36/office-14-256.png'
             }
             alt="profile"
             style={{
@@ -46,7 +63,7 @@ export default function Navbar() {
       )
     }
     return null
-  }, [session, showSignInButton])
+  }, [session, showSignInButton, user])
   return (
     <Flex css={navbarContainerStyles} justify="space-between" align="center">
       <Link href="/">
