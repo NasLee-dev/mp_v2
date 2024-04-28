@@ -15,6 +15,10 @@ const nextConfig = {
         protocol: 'http',
         hostname: '**.kakaocdn.net',
       },
+      {
+        protocol: 'https',
+        hostname: '**.randomuser.me',
+      },
     ],
   },
 }

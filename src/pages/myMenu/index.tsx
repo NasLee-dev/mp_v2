@@ -29,7 +29,7 @@ function Mymenu(lists: Register) {
   return (
     <Flex>
       <SideMenu />
-      {router.pathname === '/myMenu/find' && <FindPage lists={lists} />}
+      {router.pathname === '/myMenu/find' && <FindPage />}
     </Flex>
   )
 }

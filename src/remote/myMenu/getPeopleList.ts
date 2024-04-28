@@ -5,17 +5,18 @@ import {
   limit,
   query,
   startAfter,
+  where,
 } from 'firebase/firestore'
 import { store } from '../firebase'
 import { COLLECTION } from '@/components/constants'
-import { Register } from '@/model/register'
+import { MissedPerson } from '@/model/register'
 
-export async function getPeopleList(pageParams?: QuerySnapshot<any>) {
+export async function getPeopleList(pageParams?: QuerySnapshot<MissedPerson>) {
   const listQuery =
     pageParams == null
       ? query(collection(store, COLLECTION.PEOPLE), limit(10))
       : query(
-          collection(store, COLLECTIONS.PEOPLE),
+          collection(store, COLLECTION.PEOPLE),
           startAfter(pageParams, limit(10)),
         )
   const listsSnapShot = await getDocs(listQuery)
@@ -23,11 +24,26 @@ export async function getPeopleList(pageParams?: QuerySnapshot<any>) {
     (doc) =>
       ({
         ...doc.data(),
-      }) as Register,
+      }) as MissedPerson,
   )
   const lastVisible = listsSnapShot.docs[listsSnapShot.docs.length - 1]
   return {
     lists,
     lastVisible,
   }
+}
+
+export async function getPeopleListByKeyword(keyword: string) {
+  const searchQuery = query(
+    collection(store, COLLECTION.PEOPLE),
+    where('name', '>=', keyword),
+    where('name', '<=', keyword + '\uf8ff'),
+  )
+  const listsSnapShot = await getDocs(searchQuery)
+  return listsSnapShot.docs.map(
+    (doc) =>
+      ({
+        ...doc.data(),
+      }) as MissedPerson,
+  )
 }

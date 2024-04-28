@@ -1,68 +1,103 @@
+import ListBox from '@/components/myMenu/ListBox'
 import SideMenu from '@/components/myMenu/SideMenu'
-import useList from '@/components/myMenu/hooks/useList'
 import Flex from '@/components/shared/Flex'
+import Input from '@/components/shared/Input'
 import Spacing from '@/components/shared/Spacing'
 import Text from '@/components/shared/Text'
-import { Register } from '@/model/register'
+import withAuth from '@/components/shared/hooks/withAuth'
+import { MissedPerson } from '@/model/register'
 import { getPeopleList } from '@/remote/myMenu/getPeopleList'
 import { css } from '@emotion/react'
-import { getDocs } from 'firebase/firestore'
-import { GetServerSidePropsContext } from 'next'
-import { dehydrate } from 'react-query'
+import { useRouter } from 'next/router'
+import { useCallback } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { QueryClient, dehydrate, useInfiniteQuery } from 'react-query'
 
-function FindPage({ lists }: any) {
-  console.log(lists)
+function FindPage() {
+  const router = useRouter()
+  const {
+    data,
+    hasNextPage = false,
+    fetchNextPage,
+    isFetching,
+  } = useInfiniteQuery(['list'], ({ pageParam }) => getPeopleList(pageParam), {
+    getNextPageParam: (lastPage) => {
+      return lastPage.lastVisible
+    },
+  })
+
+  const loadMore = useCallback(() => {
+    if (hasNextPage === false || isFetching) {
+      return
+    }
+    fetchNextPage()
+  }, [hasNextPage, isFetching, fetchNextPage])
+  if (data == null) {
+    return <div>로딩중</div>
+  }
+
+  const lists = data?.pages.map((page) => page.lists).flat()
   return (
-    <Flex>
+    <Flex
+      style={{
+        flexDirection: 'row',
+      }}
+    >
       <SideMenu />
       <Flex css={ContainerStyle}>
-        <Spacing size={20} />
         <Flex
           style={{
-            width: '30%',
+            display: 'flex',
+            width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'column',
-            height: '150px',
-            borderRadius: '10px',
-            display: 'flex',
+            marginTop: '25px',
+            marginBottom: '25px',
           }}
         >
-          <Text css={TitleStyle}>실종자 리스트</Text>
+          <Text css={TitleStyle}>실종자 찾기</Text>
         </Flex>
         <Flex
           style={{
-            width: '95%',
-            height: '100%',
-            flexDirection: 'column',
+            width: '50vw',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: '20px',
           }}
         >
-          {lists.map((list: Register) => (
-            <Flex
-              key={list.id}
-              style={{
-                border: '1px solid gray',
-                width: '100%',
-                height: '150px',
-                borderRadius: '10px',
-                marginBottom: '10px',
-              }}
-            >
+          <Input
+            onFocus={() => {
+              router.push('/myMenu/ListSearch')
+            }}
+          />
+        </Flex>
+        <InfiniteScroll
+          dataLength={lists?.length}
+          hasMore={hasNextPage}
+          loader={<h4>Loading...</h4>}
+          next={loadMore}
+        >
+          <ul>
+            {lists.map((list: MissedPerson) => (
               <Flex
+                key={list.id}
                 style={{
-                  width: '100%',
-                  height: '100%',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
+                  border: '1px solid gray',
+                  width: '50vw',
+                  height: '200px',
+                  borderRadius: '10px',
+                  marginBottom: '10px',
+                  justifyContent: 'space-between',
                   alignItems: 'center',
+                  overflow: 'hidden',
                 }}
               >
-                <Text>{list.name}</Text>
-                <Text>{list.age}</Text>
+                <ListBox list={list} />
               </Flex>
-            </Flex>
-          ))}
-        </Flex>
+            ))}
+          </ul>
+        </InfiniteScroll>
       </Flex>
     </Flex>
   )
@@ -72,10 +107,10 @@ const ContainerStyle = css`
   display: flex;
   flex-direction: column;
   width: calc(100% - 200px);
-  height: calc(100vh - 60px);
-  position: absolute;
+  height: calc(100vh - 65px);
+  position: relative;
   left: 200px;
-  top: 60px;
+  top: 0px;
   z-index: 1;
   justify-content: start;
   align-items: center;
@@ -87,14 +122,14 @@ const TitleStyle = css`
   margin-bottom: 20px;
 `
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { lists } = await getPeopleList() // Destructure the 'lists' property instead of 'data'
-  console.log(lists)
+export async function getServerSideProps() {
+  const client = new QueryClient()
+  await client.prefetchInfiniteQuery(['list'], () => getPeopleList())
   return {
     props: {
-      lists,
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(client))),
     },
   }
 }
 
-export default FindPage
+export default withAuth(FindPage)

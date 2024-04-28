@@ -117,16 +117,40 @@ export default function Navbar() {
         }}
       >
         <Link href="/familly">
-          <Text>가족 찾기</Text>
+          <Text
+            style={{
+              color: `${router.pathname === '/familly' ? colors.blue980 : colors.black}`,
+            }}
+          >
+            가족 찾기
+          </Text>
         </Link>
         <Link href="/consulting">
-          <Text>컨설팅</Text>
+          <Text
+            style={{
+              color: `${router.pathname === '/consulting' ? colors.blue980 : colors.black}`,
+            }}
+          >
+            컨설팅
+          </Text>
         </Link>
         <Link href="/myMenu">
-          <Text>마이메뉴</Text>
+          <Text
+            style={{
+              color: `${router.pathname.includes('/myMenu') ? colors.blue980 : colors.black}`,
+            }}
+          >
+            마이메뉴
+          </Text>
         </Link>
         <Link href="/community">
-          <Text>커뮤니티</Text>
+          <Text
+            style={{
+              color: `${router.pathname === '/community' ? colors.blue980 : colors.black}`,
+            }}
+          >
+            커뮤니티
+          </Text>
         </Link>
       </div>
       {renderButton()}

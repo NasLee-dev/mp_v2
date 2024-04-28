@@ -1,4 +1,4 @@
-export interface Register {
+export interface MissedPerson {
   name: string
   age: number
   email: string
@@ -15,4 +15,13 @@ export interface Register {
   weight: string
   foot: string
   createdAt?: string
+  MissedDate: string
+  connectedPerson?: {
+    name?: string
+    phone?: string
+    email?: string
+    id?: string
+    age?: number
+    img?: string
+  }
 }
