@@ -119,7 +119,7 @@ export default function Navbar() {
         <Link href="/familly">
           <Text
             style={{
-              color: `${router.pathname === '/familly' ? colors.blue980 : colors.black}`,
+              color: `${router.pathname.includes('/familly') ? colors.blue980 : colors.black}`,
             }}
           >
             가족 찾기

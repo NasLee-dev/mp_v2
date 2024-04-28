@@ -8,12 +8,12 @@ const SIDE_MENU = [
   {
     id: 1,
     title: '실종자 찾기',
-    url: '/myMenu/find',
+    url: '/familly/find',
   },
   {
     id: 2,
     title: '실종자 등록하기',
-    url: '/myMenu/register',
+    url: '/familly/register',
   },
 ]
 
