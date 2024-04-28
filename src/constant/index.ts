@@ -1,4 +1,4 @@
-export const COLLECTION = {
+const COLLECTIONS = {
   USER: 'USER',
   PEOPLE: 'PEOPLE',
 }

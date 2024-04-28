@@ -12,7 +12,7 @@ function withAuth<Props = Record<string, never>>(
     const user = useRecoilValue(userAtom)
     const { data, status } = useSession()
     if (status !== 'loading' && data == null && user?.email === '') {
-      router.replace('/auth/signin')
+      router.replace('/signin')
       return null
     }
     return <WrappedComponent {...(props as any)} />

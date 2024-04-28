@@ -8,6 +8,7 @@ import TextField from '@/components/shared/TextField'
 import { FormValue } from '@/model/user'
 import { auth, store } from '@/remote/firebase'
 import { css } from '@emotion/react'
+import { FirebaseError } from 'firebase/app'
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -72,7 +73,12 @@ function EamilSignupPage() {
         phone: phone,
       })
       router.push('/')
-    } catch (error) {
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        alert('이미 사용중인 이메일입니다.')
+      } else if (error.code === 'auth/weak-password') {
+        alert('비밀번호는 8자 이상이어야 합니다.')
+      }
       console.error(error)
     }
   }

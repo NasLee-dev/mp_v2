@@ -57,7 +57,7 @@ function EamilSigninPage() {
         <Text bold={true} typography="t3">
           로그인을 진행해주세요!
         </Text>
-        <Spacing direction="vertical" size={50} />
+        <Spacing direction="vertical" size={40} />
         <Flex direction="column" css={formContainerStyles}>
           <TextField
             label="이메일"

@@ -38,7 +38,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/mock/list.js"  ],
   "exclude": [
     "node_modules"
   ]
