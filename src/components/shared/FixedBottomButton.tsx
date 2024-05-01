@@ -10,12 +10,14 @@ interface FixedBottomButtonProps {
   label: string
   onClick: () => void
   disabled?: boolean
+  style?: React.CSSProperties
 }
 
 function FixedBottomButton({
   label,
   onClick,
   disabled,
+  style,
 }: FixedBottomButtonProps) {
   const $portalRoot = document.getElementById('root-portal')
 

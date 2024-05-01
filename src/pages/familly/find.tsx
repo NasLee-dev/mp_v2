@@ -67,7 +67,7 @@ function FindPage() {
         >
           <Input
             onFocus={() => {
-              router.push('/myMenu/ListSearch')
+              router.push('/familly/ListSearch')
             }}
           />
         </Flex>

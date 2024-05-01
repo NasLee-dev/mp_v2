@@ -7,7 +7,7 @@ export default function Familly() {
   return (
     <div>
       <SideMenu />
-      {router.pathname === '/myMenu/find' && <Find />}
+      {router.pathname === '/familly/find' && <Find />}
     </div>
   )
 }
