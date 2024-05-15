@@ -1,4 +1,4 @@
-import SideMenu from '@/components/myMenu/SideMenu'
+import SideMenu from '@/components/family/SideMenu'
 import Flex from '@/components/shared/Flex'
 import Text from '@/components/shared/Text'
 import withAuth from '@/components/shared/hooks/withAuth'
@@ -13,11 +13,7 @@ interface Register {
 
 function Mymenu(lists: Register) {
   const router = useRouter()
-  return (
-    <Flex>
-      <SideMenu />
-    </Flex>
-  )
+  return <Flex></Flex>
 }
 
 export default withAuth(Mymenu)

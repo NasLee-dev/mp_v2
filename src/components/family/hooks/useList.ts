@@ -1,4 +1,4 @@
-import { getPeopleList } from '@/remote/myMenu/getPeopleList'
+import { getPeopleList } from '@/remote/family/getPeopleList'
 import { useQuery } from 'react-query'
 
 export default function useList() {

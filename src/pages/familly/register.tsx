@@ -1,4 +1,4 @@
-import SideMenu from '@/components/myMenu/SideMenu'
+import SideMenu from '@/components/family/SideMenu'
 import Button from '@/components/shared/Button'
 import Flex from '@/components/shared/Flex'
 import Input from '@/components/shared/Input'
@@ -8,20 +8,21 @@ import Text from '@/components/shared/Text'
 import TextField from '@/components/shared/TextField'
 import withAuth from '@/components/shared/hooks/withAuth'
 import useUser from '@/hooks/auth/useUser'
+import {
+  getPeopleList,
+  getPeopleListLength,
+} from '@/remote/family/getPeopleList'
 import RegistPeople from '@/remote/register'
 import { Colors, colors } from '@/styles/colorPalette'
 import { css, keyframes } from '@emotion/react'
-import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const FixedBottomButton = dynamic(
-  () => import('@/components/shared/FixedBottomButton'),
-)
-
 function RegisterPage() {
   const user = useUser()
+  const router = useRouter()
   const { register, formState, handleSubmit } = useForm({
     mode: 'onChange',
   })
@@ -37,9 +38,10 @@ function RegisterPage() {
     connectedPerson: {
       name: '',
       email: '',
-      id: '',
+      uid: '',
     },
   })
+  console.log(formValue)
   const handleFormValues = useCallback(
     (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
       const { name, value } = e.target
@@ -82,21 +84,39 @@ function RegisterPage() {
         connectedPerson: {
           name: displayName,
           email,
-          id: uid,
+          uid: uid,
         },
       }
     })
   }
 
+  const handleGetLists = async () => {
+    const data = await getPeopleListLength()
+    setFormValue((prev) => {
+      return {
+        ...prev,
+        id: data + 1,
+      }
+    })
+  }
   useEffect(() => {
     handleConnectedPerson()
+    handleGetLists()
   }, [])
 
   const onSubmit: SubmitHandler<any> = async () => {
-    await RegistPeople(formValue)
+    try {
+      await RegistPeople(formValue)
+      if (window.confirm('등록이 완료되었습니다.')) {
+        router.push('/familly/find')
+      } else {
+        router.push('/familly/find')
+      }
+    } catch (error) {
+      alert('다시 시도해주세요')
+      console.error(error)
+    }
   }
-
-  console.log(formValue)
 
   return (
     <Flex

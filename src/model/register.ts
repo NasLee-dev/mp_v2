@@ -20,7 +20,7 @@ export interface MissedPerson {
     name?: string
     phone?: string
     email?: string
-    id?: string
+    uid?: string
     age?: number
     img?: string
   }

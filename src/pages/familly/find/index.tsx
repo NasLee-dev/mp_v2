@@ -1,14 +1,15 @@
-import ListBox from '@/components/myMenu/ListBox'
-import SideMenu from '@/components/myMenu/SideMenu'
+import ListBox from '@/components/family/ListBox'
+import SideMenu from '@/components/family/SideMenu'
 import Flex from '@/components/shared/Flex'
 import Input from '@/components/shared/Input'
 import Text from '@/components/shared/Text'
+import Top from '@/components/shared/Top'
 import withAuth from '@/components/shared/hooks/withAuth'
 import { MissedPerson } from '@/model/register'
-import { getPeopleList } from '@/remote/myMenu/getPeopleList'
+import { getPeopleList } from '@/remote/family/getPeopleList'
 import { css } from '@emotion/react'
 import { useRouter } from 'next/router'
-import { useCallback } from 'react'
+import { Fragment, useCallback } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { QueryClient, dehydrate, useInfiniteQuery } from 'react-query'
 
@@ -44,19 +45,7 @@ function FindPage() {
     >
       <SideMenu />
       <Flex css={ContainerStyle}>
-        <Flex
-          style={{
-            display: 'flex',
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            marginTop: '25px',
-            marginBottom: '25px',
-          }}
-        >
-          <Text css={TitleStyle}>실종자 찾기</Text>
-        </Flex>
+        <Top title="실종자 찾기" subTitle="실종자 이름을 검색해주세요" />
         <Flex
           style={{
             width: '50vw',
@@ -67,33 +56,34 @@ function FindPage() {
         >
           <Input
             onFocus={() => {
-              router.push('/familly/ListSearch')
+              router.push('/familly/find/ListSearch')
             }}
           />
         </Flex>
         <InfiniteScroll
-          dataLength={lists?.length}
+          dataLength={lists?.length ?? 0}
           hasMore={hasNextPage}
-          loader={<h4>Loading...</h4>}
+          loader={<></>}
           next={loadMore}
+          scrollThreshold="100px"
         >
           <ul>
             {lists.map((list: MissedPerson) => (
-              <Flex
-                key={list.id}
-                style={{
-                  border: '1px solid gray',
-                  width: '50vw',
-                  height: '200px',
-                  borderRadius: '10px',
-                  marginBottom: '10px',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  overflow: 'hidden',
-                }}
-              >
-                <ListBox list={list} />
-              </Flex>
+              <Fragment key={list.id}>
+                <Flex
+                  style={{
+                    border: '1px solid gray',
+                    width: '50vw',
+                    height: '200px',
+                    borderRadius: '10px',
+                    marginBottom: '10px',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <ListBox list={list} />
+                </Flex>
+              </Fragment>
             ))}
           </ul>
         </InfiniteScroll>
@@ -113,12 +103,7 @@ const ContainerStyle = css`
   z-index: 1;
   justify-content: start;
   align-items: center;
-`
-
-const TitleStyle = css`
-  font-size: 30px;
-  font-weight: 700;
-  margin-bottom: 20px;
+  overflow: 'hidden';
 `
 
 export async function getServerSideProps() {

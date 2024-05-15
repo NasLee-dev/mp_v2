@@ -116,7 +116,7 @@ export default function Navbar() {
           gap: '100px',
         }}
       >
-        <Link href="/familly">
+        <Link href="/familly/find">
           <Text
             style={{
               color: `${router.pathname.includes('/familly') ? colors.blue980 : colors.black}`,

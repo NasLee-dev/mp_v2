@@ -1,4 +1,4 @@
-import SideMenu from '@/components/myMenu/SideMenu'
+import SideMenu from '@/components/family/SideMenu'
 import { useRouter } from 'next/router'
 import Find from './find'
 

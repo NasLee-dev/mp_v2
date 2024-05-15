@@ -39,7 +39,7 @@ function ListRow({
 }
 
 const listRowContainerStyles = css`
-  padding: 8px 24px;
+  padding: 10px 0;
 `
 
 const listRowLeftStyles = css`

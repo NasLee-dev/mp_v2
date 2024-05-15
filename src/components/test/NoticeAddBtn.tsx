@@ -1,20 +1,20 @@
-import { PEOPLE_LIST } from '@/mock/list'
 import { store } from '@/remote/firebase'
 import { collection, doc, writeBatch } from 'firebase/firestore'
+import { NOTICE_LIST } from '@/mock/notice'
 import { COLLECTION } from '../constants'
 import Button from '../shared/Button'
 
-export default function PeopleListAddBtn() {
+export default function NoticeAddBtn() {
   const handleBtnClick = () => {
     const batch = writeBatch(store)
-    const peopleList = PEOPLE_LIST.map((list) => {
+    const peopleList = NOTICE_LIST.map((list) => {
       return {
         ...list,
       }
     })
 
     peopleList.forEach((list) => {
-      const docRef = doc(collection(store, COLLECTION.PEOPLE))
+      const docRef = doc(collection(store, COLLECTION.NOTICE))
       batch.set(docRef, list)
     })
     batch
@@ -28,5 +28,5 @@ export default function PeopleListAddBtn() {
         alert('등록 실패')
       })
   }
-  return <Button onClick={handleBtnClick}>실종자 등록하기</Button>
+  return <Button onClick={handleBtnClick}>공지사항 등록하기</Button>
 }

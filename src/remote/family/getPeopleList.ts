@@ -47,3 +47,8 @@ export async function getPeopleListByKeyword(keyword: string) {
       }) as MissedPerson,
   )
 }
+
+export async function getPeopleListLength() {
+  const listsSnapShot = await getDocs(collection(store, COLLECTION.PEOPLE))
+  return listsSnapShot.docs.length
+}

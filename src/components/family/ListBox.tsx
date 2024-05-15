@@ -5,16 +5,23 @@ import ListRow from '../shared/ListRow'
 import Image from 'next/image'
 import { css } from '@emotion/react'
 import Spacing from '../shared/Spacing'
+import { useRouter } from 'next/router'
 
 export default function ListBox({ list }: { list: MissedPerson }) {
+  const router = useRouter()
+  console.log(list)
   return (
     <div
       style={{
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        width: '90%',
+        width: '100%',
+        height: '100%',
         cursor: 'pointer',
+      }}
+      onClick={() => {
+        router.push(`/familly/find/${list.id}`)
       }}
     >
       <Flex
@@ -42,15 +49,14 @@ export default function ListBox({ list }: { list: MissedPerson }) {
               <Text css={TextStyle2}>{list.sex === 'M' ? '남성' : '여성'}</Text>
             }
           />
-          <ListRow
-            left={<Text css={TextStyle}>특징</Text>}
-            contents={<Text css={TextStyle2}>{list.etc}</Text>}
-          />
         </Flex>
         <Flex
           direction="column"
           style={{
-            width: '30%',
+            width: '40%',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
           }}
         >
           <ListRow
@@ -58,10 +64,16 @@ export default function ListBox({ list }: { list: MissedPerson }) {
             contents={<Text css={TextStyle2}>{list.address}</Text>}
           />
           <ListRow
-            left={<Text css={TextStyle}>실종주소</Text>}
+            left={<Text css={TextStyle}>실종위치</Text>}
             contents={<Text css={TextStyle2}>{list.LastAddress}</Text>}
+            style={css`
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            `}
           />
         </Flex>
+        <Spacing direction="horizontal" size={10} />
         <Flex
           direction="column"
           style={{

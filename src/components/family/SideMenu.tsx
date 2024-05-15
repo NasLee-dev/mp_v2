@@ -32,8 +32,9 @@ function SideMenu() {
           <Text
             css={TextStyle}
             style={{
-              color:
-                router.pathname === menu.url ? colors.blue980 : colors.gray800,
+              color: router.pathname.includes(menu.url)
+                ? colors.blue980
+                : colors.gray800,
             }}
           >
             {menu.title}

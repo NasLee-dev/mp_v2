@@ -1,14 +1,15 @@
 import useDebounce from '@/hooks/useDebounce'
-import { getPeopleListByKeyword } from '@/remote/myMenu/getPeopleList'
+import { getPeopleListByKeyword } from '@/remote/family/getPeopleList'
 import { useRouter } from 'next/router'
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
-import Flex from '../../components/shared/Flex'
-import ListBox from '../../components/myMenu/ListBox'
-import SideMenu from '@/components/myMenu/SideMenu'
+import Flex from '../../../components/shared/Flex'
+import ListBox from '../../../components/family/ListBox'
+import SideMenu from '@/components/family/SideMenu'
 import { css } from '@emotion/react'
 import Text from '@/components/shared/Text'
 import Input from '@/components/shared/Input'
+import Button from '@/components/shared/Button'
 
 export default function ListSearchBar() {
   const [keyword, setKeyword] = useState('')
@@ -63,7 +64,6 @@ export default function ListSearchBar() {
         >
           <Input ref={inputRef} value={keyword} onChange={handleKeyword} />
         </Flex>
-
         {keyword !== '' && data?.length == 0 ? (
           <div>검색 결과가 없습니다.</div>
         ) : (
@@ -87,6 +87,24 @@ export default function ListSearchBar() {
             ))}
           </ul>
         )}
+        <Flex
+          justify="end"
+          style={{
+            width: '50vw',
+            cursor: 'pointer',
+          }}
+        >
+          <Button
+            onClick={() => {
+              router.push('/familly/find')
+            }}
+            style={{
+              cursor: 'pointer',
+            }}
+          >
+            목록으로
+          </Button>
+        </Flex>
       </Flex>
     </Flex>
   )
