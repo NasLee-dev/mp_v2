@@ -8,6 +8,9 @@ import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
 import useGetNotice from './hooks/useGetNotice'
 import MiniNotice from '@/components/family/MiniNotice'
+import Spacing from '@/components/shared/Spacing'
+import ContentsProps from '@/components/community/ContentsProps'
+import CommunityProps from '@/components/community/CommunityProps'
 
 export default function Community() {
   const [innerHeight, setInnerHeight] = useState<number>(0)
@@ -69,6 +72,7 @@ export default function Community() {
             <ComuText tab={tab}>커뮤니티</ComuText>
           </Flex>
         </Flex>
+        <Spacing direction="horizontal" size={20} />
         <Submenu
           tab={tab}
           clickedMenu={clickedMenu}
@@ -92,7 +96,9 @@ export default function Community() {
           top: '220px',
           height: innerHeight - 220 - 66,
         }}
-      ></Flex>
+      >
+        {tab === 0 ? <ContentsProps /> : <CommunityProps />}
+      </Flex>
     </Container>
   )
 }

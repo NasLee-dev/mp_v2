@@ -11,7 +11,7 @@ interface TopProps {
 function Top({ title, subTitle }: TopProps) {
   return (
     <Flex direction="column" css={containerStyles}>
-      <Text bold={true} typography="t1">
+      <Text bold={true} typography="t3">
         {title}
       </Text>
       <Text typography="t6">{subTitle}</Text>

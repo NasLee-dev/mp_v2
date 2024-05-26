@@ -146,7 +146,7 @@ export default function Navbar() {
         <Link href="/community">
           <Text
             style={{
-              color: `${router.pathname === '/community' ? colors.blue980 : colors.black}`,
+              color: `${router.pathname.includes('/community') ? colors.blue980 : colors.black}`,
             }}
           >
             커뮤니티
