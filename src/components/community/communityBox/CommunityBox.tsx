@@ -1,6 +1,5 @@
 import Flex from '@/components/shared/Flex'
 import Text from '@/components/shared/Text'
-import Top from '@/components/shared/Top'
 import useUser from '@/hooks/auth/useUser'
 import { colors } from '@/styles/colorPalette'
 import { css } from '@emotion/react'
@@ -9,7 +8,6 @@ import Image from 'next/image'
 
 export default function CommunityBox() {
   const user = useUser()
-  console.log(user)
   return (
     <Flex css={CommunityBoxStyle}>
       <Flex
@@ -30,14 +28,7 @@ export default function CommunityBox() {
         <Text>{user?.displayName}</Text>
       </Flex>
       <Title>커뮤니티</Title>
-      <Contents
-        style={{
-          color: colors.gray,
-        }}
-      >
-        커뮤니티 내용
-      </Contents>
-
+      <Contents>커뮤니티 내용</Contents>
       <RecommendCount
         style={{
           color: colors.gray,
@@ -82,7 +73,7 @@ const Title = styled.span`
   margin-bottom: 10px;
   cursor: pointer;
   &:hover {
-    color: black;
+    color: ${colors.gray400};
   }
 `
 
@@ -94,7 +85,7 @@ const Contents = styled.span`
   margin-bottom: 10px;
   cursor: pointer;
   &:hover {
-    color: black;
+    color: ${colors.gray400};
   }
   overflow: hidden;
   white-space: nowrap;
@@ -107,6 +98,7 @@ const CreatedAt = styled.span`
   text-align: center;
   position: absolute;
   bottom: 10px;
+  right: 10px;
 `
 
 const CommentCount = styled.span`
@@ -115,7 +107,7 @@ const CommentCount = styled.span`
   text-align: center;
   position: absolute;
   bottom: 10px;
-  right: 10px;
+  left: 0px;
 `
 
 const RecommendCount = styled.span`
@@ -124,5 +116,5 @@ const RecommendCount = styled.span`
   text-align: center;
   position: absolute;
   bottom: 10px;
-  right: 70px;
+  left: 60px;
 `

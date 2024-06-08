@@ -33,6 +33,7 @@ function FixedBottomButton({
         full={true}
         onClick={onClick}
         css={buttonStyles}
+        style={style}
       >
         {label}
       </Button>
@@ -52,7 +53,7 @@ const Container = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: ${colors.white};
+  background-color: 'transparent'
   padding: 20px 10px 8px;
   transform: translateY(100%);
   animation: ${slideup} 0.5s ease-in-out forwards;
