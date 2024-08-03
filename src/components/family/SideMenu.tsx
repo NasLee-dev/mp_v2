@@ -61,9 +61,13 @@ const Menu = css`
   top: 60px;
   width: 80%;
   height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   &:hover {
     background-color: ${colors.gray200};
+    color: ${colors.blue980};
   }
   padding: 20px;
 `

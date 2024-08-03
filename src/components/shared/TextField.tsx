@@ -42,10 +42,10 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       <div>
         {label ? (
           <Text
-            typography="t7"
+            typography="t6"
             color={labelColor as Colors}
             display="inline-block"
-            style={{ marginBottom: 6 }}
+            style={{ marginBottom: 6, fontFamily: 'SUIT' }}
           >
             {label}
           </Text>

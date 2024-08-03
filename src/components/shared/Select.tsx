@@ -35,7 +35,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
     <Flex direction="column">
       {label ? (
         <Text
-          typography="t7"
+          typography="t6"
           color="black"
           display="inline-block"
           style={{ marginBottom: 6 }}

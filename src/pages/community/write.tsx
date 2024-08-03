@@ -78,7 +78,6 @@ export default function WritePage() {
       console.error(error)
     }
   }
-  console.log(formData)
   return (
     <Container>
       <Flex css={WriteBox}>
@@ -88,7 +87,9 @@ export default function WritePage() {
             width: '100%',
             position: 'relative',
             top: '50px',
+            cursor: 'pointer',
           }}
+          onClick={() => router.push('/community')}
         >
           <Image
             src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-back-512.png"
@@ -114,7 +115,7 @@ export default function WritePage() {
           style={{
             width: '85%',
             position: 'relative',
-            top: '150px',
+            top: '120px',
             flexDirection: 'column',
           }}
         >
@@ -159,7 +160,7 @@ export default function WritePage() {
             style={{
               width: '700px',
               position: 'absolute',
-              bottom: '10px',
+              bottom: '100px',
               left: '50%',
               transform: 'translateX(-50%)',
             }}

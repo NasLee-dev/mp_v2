@@ -42,6 +42,7 @@ function RegisterPage() {
   const { register, formState, handleSubmit } = useForm<FormValues>({
     mode: 'onChange',
   })
+
   const [formValue, setFormValue] = useState<FormValues>({
     name: '',
     age: '',
@@ -59,7 +60,11 @@ function RegisterPage() {
   })
 
   const handleFormValues = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+    (
+      e: ChangeEvent<
+        HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement
+      >,
+    ) => {
       const { name, value } = e.target
       setFormValue((prev) => ({
         ...prev,
@@ -126,99 +131,131 @@ function RegisterPage() {
   }
 
   return (
-    <Flex direction="row">
+    <Flex
+      direction="row"
+      style={{ height: 'calc(100vh - 65px)', width: '100%' }}
+    >
       <SideMenu />
       <Flex css={containerStyle}>
         <Flex css={headerStyle}>
           <Text css={titleStyle}>실종자 등록하기</Text>
         </Flex>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Flex direction="column" css={formContainerStyle}>
-            <Spacing size={20} />
+        <Spacing size={10} />
+        <Flex css={formContainerStyle}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            style={{ position: 'absolute', top: 0, left: '10%', width: '90%' }}
+          >
             <Flex
               direction="row"
-              justify="center"
-              align="start"
-              css={imageContainerStyle}
+              style={{ width: '80%', justifyContent: 'space-between' }}
             >
-              <Flex direction="column" css={imageWrapperStyle}>
-                <Text typography="t7" css={labelStyle}>
-                  실종자 사진
+              <Flex direction="column" css={imageContainerStyle}>
+                <Text style={{ textAlign: 'left' }}>
+                  <label css={labelStyle}>실종자 사진</label>
                 </Text>
                 <Image
                   src={
                     formValue.img ||
-                    'https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male4-256.png'
+                    'https://cdn1.iconfinder.com/data/icons/material-design-icons-light/24/picture-512.png'
                   }
-                  alt="img"
-                  width={200}
+                  alt="image"
+                  width={250}
                   height={210}
                   css={imageStyle}
                 />
-                <input type="file" name="img" onChange={uploadImageToClient} />
+                <input
+                  type="file"
+                  name="img"
+                  accept="image/*"
+                  onChange={uploadImageToClient}
+                />
               </Flex>
               <Flex direction="column">
-                <Flex direction="row" css={fieldRowStyle}>
-                  <TextField
-                    {...register('name', { required: true })}
-                    name="name"
-                    label="실종자 이름"
-                    value={formValue.name}
+                <Flex
+                  direction="row"
+                  style={{
+                    justifyContent: 'space-between',
+                    gap: '20px',
+                    height: '50%',
+                  }}
+                >
+                  <Flex direction="column" style={{ gap: '10px' }}>
+                    <TextField
+                      {...register('name', { required: true })}
+                      name="name"
+                      label="실종자 이름"
+                      value={formValue.name}
+                      onChange={handleFormValues}
+                      css={textFieldStyle}
+                    />
+                    <TextField
+                      {...register('birth', { required: true })}
+                      name="birth"
+                      label="실종자 생년월일"
+                      value={formValue.birth}
+                      onChange={handleFormValues}
+                      css={textFieldStyle}
+                    />
+                  </Flex>
+                  <Flex direction="column" style={{ gap: '10px' }}>
+                    <TextField
+                      {...register('missingDate', { required: true })}
+                      name="missingDate"
+                      label="실종 추정 일자"
+                      placeholder="2000-12-20"
+                      value={formValue.missingDate}
+                      onChange={handleFormValues}
+                      css={textFieldStyle}
+                    />
+                    <Select
+                      {...register('sex', { required: true })}
+                      label="실종자 성별"
+                      name="sex"
+                      options={[
+                        { label: '남성', value: 'M' },
+                        { label: '여성', value: 'F' },
+                      ]}
+                      css={selectStyle}
+                      style={{ fontSize: 16 }}
+                      onChange={handleFormValues}
+                    />
+                  </Flex>
+                </Flex>
+                <Spacing size={30} />
+                <Flex direction="column">
+                  <label css={labelStyle}>실종자 최종 주소</label>
+                  <input
+                    {...register('LastAddress', { required: true })}
+                    name="LastAddress"
+                    value={formValue.LastAddress}
                     onChange={handleFormValues}
-                    css={textFieldStyle}
-                  />
-                  <TextField
-                    {...register('birth', { required: true })}
-                    name="birth"
-                    label="실종자 생년월일"
-                    value={formValue.birth}
-                    onChange={handleFormValues}
-                    css={textFieldStyle}
+                    style={{
+                      width: '100%',
+                      height: '50px',
+                      borderRadius: '6px',
+                    }}
                   />
                 </Flex>
-                <Spacing size={10} />
-                <Flex direction="row" css={fieldRowStyle}>
-                  <TextField
-                    {...register('missingDate', { required: true })}
-                    name="missingDate"
-                    label="실종일자"
-                    value={formValue.missingDate}
-                    onChange={handleFormValues}
-                    css={textFieldStyle}
-                  />
-                  <Select
-                    {...register('sex', { required: true })}
-                    label="실종자 성별"
-                    name="sex"
-                    options={[
-                      { label: '남성', value: 'M' },
-                      { label: '여성', value: 'F' },
-                    ]}
-                    css={selectStyle}
-                    onChange={handleFormValues}
-                  />
-                </Flex>
-                <Spacing size={10} />
-                <Text typography="t7" css={labelStyle}>
-                  실종 주소
-                </Text>
-                <Input
-                  {...register('LastAddress', { required: true })}
-                  name="LastAddress"
-                  value={formValue.LastAddress}
-                  onChange={handleFormValues}
-                  css={addressInputStyle}
-                />
               </Flex>
             </Flex>
             <Spacing size={20} />
-            <Flex css={fullWidthStyle}>
-              <TextField
+            <Flex
+              css={fullWidthStyle}
+              direction="column"
+              style={{ width: '80%' }}
+            >
+              <label css={labelStyle}>실종자 특징</label>
+              <textarea
                 name="etc"
-                label="실종자 특징"
                 value={formValue.etc}
                 onChange={handleFormValues}
-                css={fullDescriptionStyle}
+                style={{
+                  width: '100%',
+                  height: '200px',
+                  resize: 'none',
+                  borderRadius: '6px',
+                }} // 원하는 높이와 스타일 설정
               />
             </Flex>
             <Spacing size={20} />
@@ -234,8 +271,8 @@ function RegisterPage() {
                 <Text css={submitButtonTextStyle}>등록하기</Text>
               </Button>
             </Flex>
-          </Flex>
-        </form>
+          </form>
+        </Flex>
       </Flex>
     </Flex>
   )
@@ -249,7 +286,7 @@ const containerStyle = css`
   left: 200px;
   top: 0;
   z-index: 1;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
 `
 
@@ -270,54 +307,41 @@ const titleStyle = css`
 `
 
 const formContainerStyle = css`
-  width: 800px;
+  width: 100%;
+  height: 100%;
   justify-content: start;
   align-items: center;
   position: relative;
 `
 
 const imageContainerStyle = css`
-  gap: 20px;
-`
-
-const imageWrapperStyle = css`
-  width: 200px;
+  gap: 10px;
+  width: 300px;
 `
 
 const labelStyle = css`
   margin-bottom: 6px;
+  font-family: 'SUIT';
+  font-size: 16px;
 `
 
 const imageStyle = css`
-  width: 200px;
-  height: 210px;
+  width: 250px;
+  height: 220px;
   border: 1px solid #000;
-`
-
-const fieldRowStyle = css`
-  width: 100%;
-  gap: 60px;
+  border-radius: 6px;
 `
 
 const textFieldStyle = css`
-  width: 260px;
+  width: 50%;
 `
 
 const selectStyle = css`
-  width: 260px;
-`
-
-const addressInputStyle = css`
   width: 100%;
 `
 
 const fullWidthStyle = css`
-  width: 100%;
-`
-
-const fullDescriptionStyle = css`
-  width: 800px;
-  height: 200px;
+  width: 80%;
 `
 
 const submitButtonStyle = css`
